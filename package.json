@@ -1,0 +1,21 @@
+{
+    "name": "@radic/console-colors",
+    "version": "0.0.1",
+    "description": "desc",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "tsc"
+    },
+    "author": "Robin Radic",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/lodash": "^4.14.34",
+        "@types/node": "^6.0.38",
+        "rollup": "^0.35.14",
+        "typescript": "^2.0.2"
+    },
+    "dependencies": {
+        "lodash": "^4.15.0"
+    }
+}
