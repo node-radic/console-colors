@@ -34,7 +34,6 @@ function f(r, g, b, fallback) {
     if (g === void 0) { g = 0; }
     if (b === void 0) { b = 0; }
     if (fallback === void 0) { fallback = false; }
-    process.env;
 }
 function parse(text) {
     if (!delimExp.test(text))

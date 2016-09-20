@@ -30,13 +30,13 @@ let ansiColors = Object.keys(ansi);
 
 var delimExp: RegExp = /\{(.*?)\}/g
 
-function color(kind:string, r?:number, g?:number, b?:number, fallback?:string) {
+function color(kind:string, r?:number, g?:number, b?:number, fallback?:boolean) {
     ansi256[kind]
     ansi256.fg.getRgb(r,g,b);
 
 }
-function f(r:number=0,g:number=0,b:number=0,fallback:string=false){
-    process.env
+function f(r:number=0,g:number=0,b:number=0,fallback:boolean=false){
+
 }
 
 export function parse(text: string) {
