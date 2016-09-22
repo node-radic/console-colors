@@ -15,16 +15,17 @@
   "license": "MIT",
   "devDependencies": {
     "@types/ansi-styles": "^2.0.30",
+    "@types/jasmine": "^2.2.33",
     "@types/lodash": "^4.14.34",
     "@types/node": "^6.0.38",
-    "rollup": "^0.35.14",
-    "typescript": "^2.0.2",
-    "@types/jasmine": "^2.2.33",
+    "bluebird": "^3.4.6",
     "globule": "^1.0.0",
     "istanbul": "^0.4.5",
     "jasmine": "^2.4.1",
     "jasmine-spec-reporter": "^2.7.0",
-    "remap-istanbul": "^0.6.4"
+    "remap-istanbul": "^0.6.4",
+    "rollup": "^0.35.14",
+    "typescript": "^2.0.2"
   },
   "dependencies": {
     "@radic/util": "^1.1.2",

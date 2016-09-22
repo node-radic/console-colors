@@ -7,8 +7,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     },
-    "files": [
-        "index.ts",
-        "types.d.ts"
+    "exclude": [
+        "node_modules"
     ]
 }
