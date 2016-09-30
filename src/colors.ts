@@ -1,5 +1,6 @@
 import {StringType} from "@radic/util";
-import * as supportsColor from "supports-color";
+//import * as supportsColor from "supports-color";
+declare var supportsColor:any;
 
 export interface Colors
 {

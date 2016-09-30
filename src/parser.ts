@@ -1,6 +1,6 @@
 import * as ansi from "ansi-styles";
-import * as ansi256 from "ansi-256-colors";
-
+//import * as ansi256 from "ansi-256-colors";
+let ansi256 = require('ansi-256-colors')
 let ansiColors = Object.keys(ansi);
 
 

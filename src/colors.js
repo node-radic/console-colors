@@ -77,3 +77,4 @@ var BrowserConsoleColors = (function (_super) {
     return BrowserConsoleColors;
 }(ConsoleColors));
 exports.BrowserConsoleColors = BrowserConsoleColors;
+//# sourceMappingURL=colors.js.map

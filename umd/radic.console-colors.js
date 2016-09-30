@@ -1,5 +1,9 @@
-"use strict";
-var ansi = require("ansi-styles");
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('ansi-styles')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'ansi-styles'], factory) :
+    (factory((global.radic = global.radic || {}, global.radic.console-colors = global.radic.console-colors || {}),global.ansi));
+}(this, (function (exports,ansi) { 'use strict';
+
 var ansi256 = require('ansi-256-colors');
 var ansiColors = Object.keys(ansi);
 var Parser = (function () {
@@ -70,5 +74,11 @@ var Parser = (function () {
     };
     return Parser;
 }());
+var parser = new Parser;
+
 exports.Parser = Parser;
-exports.parser = new Parser;
+exports.parser = parser;
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+})));

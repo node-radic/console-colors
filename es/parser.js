@@ -1,8 +1,7 @@
-"use strict";
-var ansi = require("ansi-styles");
+import * as ansi from "ansi-styles";
 var ansi256 = require('ansi-256-colors');
 var ansiColors = Object.keys(ansi);
-var Parser = (function () {
+export var Parser = (function () {
     function Parser() {
         this.exp = /\{(.*?)\}/g;
     }
@@ -70,5 +69,4 @@ var Parser = (function () {
     };
     return Parser;
 }());
-exports.Parser = Parser;
-exports.parser = new Parser;
+export var parser = new Parser;

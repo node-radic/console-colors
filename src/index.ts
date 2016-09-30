@@ -1,2 +1,2 @@
 // export * from './lib/colors'
-export * from './lib/parser'
+export * from './parser'

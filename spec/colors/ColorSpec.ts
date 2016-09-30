@@ -1,13 +1,13 @@
-import {ServerConsoleColors} from '../..'
+
 describe("Player", function () {
     let consoleColors;
 
 
     beforeEach(function () {
-        consoleColors = new ServerConsoleColors();
+        consoleColors = 'a';
     });
 
     it("should be awesome", function () {
-        expect(consoleColors.isAwesome()).toBe(true)
+        expect(consoleColors).toBe('a')
     });
 });

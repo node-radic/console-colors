@@ -1,11 +1,10 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var util_1 = require("@radic/util");
-var Color = (function () {
+import { StringType } from "@radic/util";
+export var Color = (function () {
     function Color(value) {
         this.value = value;
     }
@@ -25,8 +24,7 @@ var Color = (function () {
     };
     return Color;
 }());
-exports.Color = Color;
-var SupportedColor = (function (_super) {
+export var SupportedColor = (function (_super) {
     __extends(SupportedColor, _super);
     function SupportedColor(value, bit) {
         _super.call(this, value);
@@ -37,9 +35,8 @@ var SupportedColor = (function (_super) {
     SupportedColor.PALETTE = new SupportedColor('palette', 8);
     SupportedColor.TRUECOLOR = new SupportedColor('truecolor', 24);
     return SupportedColor;
-}(util_1.StringType));
-exports.SupportedColor = SupportedColor;
-var ConsoleColors = (function () {
+}(StringType));
+export var ConsoleColors = (function () {
     function ConsoleColors() {
     }
     ConsoleColors.prototype.getSupportedColors = function () {
@@ -57,8 +54,7 @@ var ConsoleColors = (function () {
     };
     return ConsoleColors;
 }());
-exports.ConsoleColors = ConsoleColors;
-var ServerConsoleColors = (function (_super) {
+export var ServerConsoleColors = (function (_super) {
     __extends(ServerConsoleColors, _super);
     function ServerConsoleColors() {
         _super.apply(this, arguments);
@@ -68,12 +64,10 @@ var ServerConsoleColors = (function (_super) {
     };
     return ServerConsoleColors;
 }(ConsoleColors));
-exports.ServerConsoleColors = ServerConsoleColors;
-var BrowserConsoleColors = (function (_super) {
+export var BrowserConsoleColors = (function (_super) {
     __extends(BrowserConsoleColors, _super);
     function BrowserConsoleColors() {
         _super.apply(this, arguments);
     }
     return BrowserConsoleColors;
 }(ConsoleColors));
-exports.BrowserConsoleColors = BrowserConsoleColors;
