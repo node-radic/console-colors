@@ -1,2 +1,10 @@
 *.ts
 !*.d.ts
+/spec
+/.editorconfig
+/.gitignore
+/.mversionrc
+/console-colors.iml
+/tasks
+/tsconfig.json
+/types.d.ts

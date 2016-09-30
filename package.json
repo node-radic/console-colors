@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "desc",
   "main": "index.js",
+    "private": false
   "scripts": {
     "build": "tsc",
     "start": "test && build",

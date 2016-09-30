@@ -9,4 +9,3 @@ describe("Player", function () {
         expect(consoleColors.isAwesome()).toBe(true);
     });
 });
-//# sourceMappingURL=ColorSpec.js.map

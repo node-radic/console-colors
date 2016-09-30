@@ -2,7 +2,7 @@
 var __1 = require("../..");
 describe('Parser', function () {
     var parser;
-    var text = "\n{bold.red.underline}This is bold, red and underlined.{/red} But we dropped the red.{reset} And just resetted the rest.\n{green.bgBlue.bold}We can also mix openers and closers{/bgBlue.bgYellow./bold.orange}And make it really silly.\n{f(4,6,6)}If support for 256 colors is present, you can use the RGB 0 - 6  values. Also, you can provide a fallback{f(1,2,3,red).bold.underline}\n\nFairly advanced things are possible\n{b(2,1,3,green).f(1,2,3,red).bold.underline}Some text{/f.green./underline}greeen stuff{reset}\n";
+    var text = "\n{bold.red.underline}This is bold, red and underlined.{/red} But we dropped the red.{reset} And just resetted the rest.\n{green.bgBlue.bold}We can also mix openers and closers{/bgBlue.bgYellow./bold./green.blue}And make it really silly.\n{f(4,6,6)}If support for 256 colors is present, you can use the RGB 0 - 6  values. Also, you can provide a fallback{f(1,2,3,red).bold.underline}\n\nFairly advanced things are possible\n{b(2,1,3,green).f(1,2,3,red).bold.underline}Some text{/f.green./underline}greeen stuff{reset}\n";
     beforeEach(function () {
         parser = new __1.Parser;
     });
@@ -10,4 +10,3 @@ describe('Parser', function () {
         console.log(parser.parse(text));
     });
 });
-//# sourceMappingURL=ParserSpec.js.map
