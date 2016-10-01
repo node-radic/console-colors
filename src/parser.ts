@@ -1,4 +1,5 @@
 import * as ansi from "ansi-styles";
+import * as supportsColor from "supports-color";
 //import * as ansi256 from "ansi-256-colors";
 let ansi256 = require('ansi-256-colors')
 let ansiColors = Object.keys(ansi);
@@ -27,8 +28,6 @@ export class Parser
             })
             text = text.replace(match[0], replace);
         });
-
-        console.log(text);
 
         return text
     }
@@ -65,7 +64,12 @@ export class Parser
     }
 
     color(kind: string, r?: number, g?: number, b?: number, fallback?: string ) {
-        return ansi256[kind].getRgb(r, g, b);
+        if(supportsColor.has16m || supportsColor.has256) {
+            return ansi256[kind].getRgb(r, g, b);
+        } else if(supportsColor.has256){
+            // rgb from 0..7
+            ansi256.fg.standard
+        }
     }
 
     f(r: number = 0, g: number = 0, b: number = 0, fallback?: string ) {
@@ -78,3 +82,25 @@ export class Parser
 
 }
 export var parser:Parser = new Parser;
+
+/// ansi256
+// colors.<fg|bg>.getRgb(<red>[0..6], <green>[0..6], <blue>[0..6])
+// Returns the color code for the given red-green-blue value.
+//
+//     colors.<fg|bg>.codes[0..255]
+// All 256 color codes.
+//
+//     colors.<fg|bg>.standard[0..7]
+// The 8 base color codes, guaranteed to work on every system.
+//
+//     colors.<fg|bg>.bright[0..7]
+// The 8 base bright/bold color codes, guaranteed to work on every system.
+//
+//     colors.<fg|bg>.grayscale[0..23]
+// The 24 grayscales ranging from white to black.
+//
+//     colors.<fg|bg>.rgb[0..216]
+// The 216 varying color tints, where the order corresponds to the code-point 36*r + 6*g + b.
+//
+//     colors.reset
+// Closes any previously opened color codes.
