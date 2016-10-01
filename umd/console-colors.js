@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('ansi-styles')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'ansi-styles'], factory) :
-    (factory((global.radic = global.radic || {}, global.radic.console-colors = global.radic.console-colors || {}),global.ansi));
-}(this, (function (exports,ansi) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('ansi-styles'), require('supports-color')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'ansi-styles', 'supports-color'], factory) :
+    (factory((global.radic = global.radic || {}, global.radic.console-colors = global.radic.console-colors || {}),global.ansi,global.supportsColor));
+}(this, (function (exports,ansi,supportsColor) { 'use strict';
 
 var ansi256 = require('ansi-256-colors');
 var ansiColors = Object.keys(ansi);
@@ -27,7 +27,6 @@ var Parser = (function () {
             });
             text = text.replace(match[0], replace);
         });
-        console.log(text);
         return text;
     };
     Parser.prototype.getExpression = function () {
@@ -58,7 +57,12 @@ var Parser = (function () {
         return '';
     };
     Parser.prototype.color = function (kind, r, g, b, fallback) {
-        return ansi256[kind].getRgb(r, g, b);
+        if (supportsColor.has16m || supportsColor.has256) {
+            return ansi256[kind].getRgb(r, g, b);
+        }
+        else if (supportsColor.has256) {
+            ansi256.fg.standard;
+        }
     };
     Parser.prototype.f = function (r, g, b, fallback) {
         if (r === void 0) { r = 0; }

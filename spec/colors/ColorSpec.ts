@@ -1,6 +1,6 @@
-
+/// <reference path="../../types.d.ts"  />
 describe("Player", function () {
-    let consoleColors;
+    let consoleColors ;
 
 
     beforeEach(function () {

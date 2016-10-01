@@ -1,4 +1,5 @@
 import * as ansi from "ansi-styles";
+import * as supportsColor from "supports-color";
 var ansi256 = require('ansi-256-colors');
 var ansiColors = Object.keys(ansi);
 export var Parser = (function () {
@@ -22,7 +23,6 @@ export var Parser = (function () {
             });
             text = text.replace(match[0], replace);
         });
-        console.log(text);
         return text;
     };
     Parser.prototype.getExpression = function () {
@@ -53,7 +53,12 @@ export var Parser = (function () {
         return '';
     };
     Parser.prototype.color = function (kind, r, g, b, fallback) {
-        return ansi256[kind].getRgb(r, g, b);
+        if (supportsColor.has16m || supportsColor.has256) {
+            return ansi256[kind].getRgb(r, g, b);
+        }
+        else if (supportsColor.has256) {
+            ansi256.fg.standard;
+        }
     };
     Parser.prototype.f = function (r, g, b, fallback) {
         if (r === void 0) { r = 0; }

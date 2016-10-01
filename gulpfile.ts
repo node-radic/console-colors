@@ -23,7 +23,8 @@ var //gulp        = require("gulp"),
     istanbul     = require("gulp-istanbul"),
     jasmine      = require("gulp-jasmine"),
     clean        = require('gulp-clean'),
-    SpecReporter = require('jasmine-spec-reporter')
+    SpecReporter = require('jasmine-spec-reporter'),
+    _ = require('lodash')
     ;
 
 let c = {
@@ -35,7 +36,7 @@ let c = {
 
 gulp.task('clean', ['clean:src', 'clean:build'])
 gulp.task('clean:build', () => gulp.src(['dist', 'dts', 'es', 'lib', 'umd', 'coverage']).pipe(clean()))
-gulp.task('clean:src', () => gulp.src(['{src,spec}/*.{js,js.map}', '*.{js,js.map}']).pipe(clean()))
+gulp.task('clean:src', () => gulp.src(['{src,spec}/**/*.{js,js.map,d.ts}', '*.{js,js.map,d.ts}', '!types.d.ts']).pipe(clean()))
 
 //******************************************************************************
 //* LINT
@@ -81,15 +82,15 @@ gulp.task("build-es", function () {
         .js.pipe(gulp.dest("es/"));
 });
 
-var tsDtsProject = tsc.createProject("tsconfig.json", {
+var tsDtsProject = tsc.createProject("tsconfig.json", _.merge(require('./package.json'), {
     declaration: true,
-    noResolve  : false,
     typescript : require("typescript")
-});
+}));
 
 gulp.task("build-dts", function () {
     return gulp.src([
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "types.d.ts"
     ])
         .pipe(tsDtsProject())
         .on("error", function (err) {
@@ -101,7 +102,7 @@ gulp.task("build-dts", function () {
 
 gulp.task('build-dts:concat', ['build-dts'], (done:any) => {
     let dtsPath = path.join(process.cwd(), 'dts')
-    let dest = path.join(process.cwd(), 'radic.console-colors.d.ts')
+    let dest = path.join(process.cwd(), c.fileName + '.d.ts')
     //let dest = path.join(process.cwd(), 'dts', 'radic.util.d.ts')
     fs.existsSync(dest) && fs.unlinkSync(dest);
     let content = '';
@@ -114,7 +115,7 @@ gulp.task('build-dts:concat', ['build-dts'], (done:any) => {
     });
     fs.rmdirSync(dtsPath)
     fs.writeFile(dest, `
-declare module "@radic/console-colors" {
+declare module "${c.moduleName}" {
     ${content.replace(/declare/g , '')}
 }
 `, done)
@@ -128,12 +129,12 @@ gulp.task('build-umd', ['build-es'], () => {
         .pipe(rollup({
             entry     : './es/index.js',
             format    : 'umd',
-            moduleName: c.umdModuleNAme
+            moduleName: c.umdModuleName
         }))
         .on('error', (err) => process.stdout.write('error: ' + err) && process.exit(1))
         .pipe(gulp.dest('umd'))
         .pipe(clean())
-        .pipe(rename('console-colors.js'))
+        .pipe(rename(c.fileName + '.js'))
         .pipe(gulp.dest('umd'));
 
 });
@@ -178,7 +179,7 @@ gulp.task("jasmine", function () {
 });
 //
 // gulp.task("istanbul:hook", function () {
-//     return gulp.src(["src/**/*.js"])
+//     return gulp.src(["src/**/*.js"])w
 //         .pipe(istanbul())
 //         .pipe(sourcemaps.write("."))
 //         .pipe(istanbul.hookRequire());
@@ -238,6 +239,7 @@ if (process.env.APPVEYOR) {
 gulp.task("build", function (cb) {
     runSequence(
         // "lint",
+        "clean",
         ["build-src", "build-es", "build-lib", "build-dts", 'build-umd'],   // tests + build es and lib
         'build-dts:concat',
         "build-test", cb);

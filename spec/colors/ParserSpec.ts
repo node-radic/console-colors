@@ -1,3 +1,4 @@
+/// <reference path="../../types.d.ts"  />
 import {Parser} from "../../src/";
 describe('Parser', () => {
     let parser: Parser;
@@ -17,6 +18,6 @@ Fairly advanced things are possible
     });
 
     it('first', () => {
-        console.log(parser.parse(text))
+        parser.parse(text)
     })
 })

@@ -7,7 +7,6 @@ describe('Parser', function () {
         parser = new _1.Parser;
     });
     it('first', function () {
-        console.log(parser.parse(text));
+        parser.parse(text);
     });
 });
-//# sourceMappingURL=ParserSpec.js.map

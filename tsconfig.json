@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "declaration": false,
+        "declaration": true,
         "removeComments": true,
         "noLib": false,
         "noImplicitAny": false,
@@ -12,7 +12,6 @@
         "moduleResolution": "node",
         "target": "es5",
         "lib": ["es6", "es2015", "dom"],
-        "noResolve": false,
         "typeRoots": [
             "./node_modules/@types",
             "./node_modules"
