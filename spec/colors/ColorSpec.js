@@ -7,3 +7,4 @@ describe("Player", function () {
         expect(consoleColors).toBe('a');
     });
 });
+//# sourceMappingURL=ColorSpec.js.map
