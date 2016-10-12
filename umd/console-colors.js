@@ -1,80 +1,117 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('ansi-styles'), require('supports-color')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'ansi-styles', 'supports-color'], factory) :
-    (factory((global.radic = global.radic || {}, global.radic.console-colors = global.radic.console-colors || {}),global.ansi,global.supportsColor));
-}(this, (function (exports,ansi,supportsColor) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('supports-color'), require('color-convert'), require('@radic/util'), require('trucolor')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'supports-color', 'color-convert', '@radic/util', 'trucolor'], factory) :
+    (factory((global.radic = global.radic || {}, global.radic.console-colors = global.radic.console-colors || {}),global.supports,global.convert,global._radic_util,global.trucolor));
+}(this, (function (exports,supports,convert,_radic_util,trucolor) { 'use strict';
 
-var ansi256 = require('ansi-256-colors');
-var ansiColors = Object.keys(ansi);
+function isLength(value, lengths) {
+    lengths = lengths.length === 1 && _radic_util.kindOf(lengths[0]) === 'array' ? lengths[0] : lengths;
+    var vLen;
+    if (value.length)
+        vLen = value.length;
+    else if (isFinite(value))
+        vLen = parseInt(value);
+    else
+        return [false];
+    var lens = [];
+    lengths.map(function (val) { return parseInt(val); }).forEach(function (len) { return lens[len] = vLen === len; });
+    return lens;
+}
+var isAnyLength = function (value) {
+    var lengths = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        lengths[_i - 1] = arguments[_i];
+    }
+    return isLength(value, lengths).indexOf(true) !== -1;
+};
+var isAllLength = function (value) {
+    var lengths = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        lengths[_i - 1] = arguments[_i];
+    }
+    return isLength(value, lengths).indexOf(false) === -1;
+};
+var Colors = (function () {
+    function Colors() {
+        this.palette = trucolor.simplePalette();
+    }
+    Object.defineProperty(Colors.prototype, "convert", {
+        get: function () { return convert; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Colors.prototype, "supports", {
+        get: function () { return supports; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Colors.prototype, "trucolor", {
+        get: function () { return trucolor; },
+        enumerable: true,
+        configurable: true
+    });
+    Colors.prototype.get = function (color, close) {
+        return this.getTrucolorColor(color)[close ? 'out' : 'in'];
+    };
+    Colors.prototype.getTrucolorColor = function (color) {
+        return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;
+    };
+    return Colors;
+}());
+var colors = new Colors;
+
 var Parser = (function () {
     function Parser() {
         this.exp = /\{(.*?)\}/g;
     }
     Parser.prototype.parse = function (text) {
         var _this = this;
-        if (!this.getExpression().test(text))
+        if (!this.getBrackets().test(text))
             return text;
-        var re = this.getExpression();
-        var myArr;
-        var matches = [];
-        while ((myArr = re.exec(text)) !== null) {
-            matches.push(myArr);
-        }
-        matches.forEach(function (match) {
-            var replace = '';
-            match[1].split('.').forEach(function (key) {
-                replace += _this.key(key);
-            });
-            text = text.replace(match[0], replace);
+        this.getTextTags(text, this.getBrackets()).forEach(function (tag) {
+            var parsed = _this.parseTag(tag);
+            text = parsed.replace(text);
         });
         return text;
     };
-    Parser.prototype.getExpression = function () {
+    Parser.prototype.getBrackets = function () {
         return /\{(.*?)\}/g;
     };
-    Parser.prototype.handleMatch = function (match) {
-        var _this = this;
-        var keys = match[1].split('.');
-        var replace = '';
-        keys.forEach(function (key) {
-            replace += _this.key(key);
-        });
-    };
-    Parser.prototype.key = function (key) {
-        var isClose = key.charAt(0) === '/';
-        key = isClose ? key.replace('/', '') : key;
-        if (ansiColors.indexOf(key) !== -1) {
-            return ansi[key][isClose ? 'close' : 'open'];
+    Parser.prototype.getTextTags = function (text, brackets) {
+        var matches = [], myArr;
+        while ((myArr = brackets.exec(text)) !== null) {
+            matches.push(myArr);
         }
-        var exp = /^(f|b)\((\d{1,3}),(\d{1,3}),(\d{1,3})(?:\)|,(\w*?)\))$/m;
-        if (key.charAt(0) === 'f' || key.charAt(0) === 'b') {
-            if (exp.test(key)) {
-                var match = key.match(exp);
-                var color = this[match[1]](parseInt(match[2]), parseInt(match[3]), parseInt(match[4]), match[5]);
-                return color;
+        return matches;
+    };
+    Parser.prototype.parseTag = function (tag) {
+        var _this = this;
+        var replacements = {};
+        tag[1].split('.').forEach(function (rawColor) { return replacements[rawColor] = _this.parseColor(rawColor); });
+        var colors$$1 = Object.keys(replacements).map(function (key) { return replacements[key]; });
+        var string = colors$$1.join('');
+        var replace = function (text) { return text.replace(tag[0], string === '' ? tag[0] : string); };
+        return { replacements: replacements, colors: colors$$1, string: string, replace: replace };
+    };
+    Parser.prototype.parseColor = function (color) {
+        var isClose = color.charAt(0) === '/';
+        color = isClose ? color.replace('/', '') : color;
+        if (color.charAt(0) === 'f' || color.charAt(0) === 'b') {
+            var exp = /^(f|b)(\:|\()(.*)$/m;
+            if (exp.test(color)) {
+                var segments = color.match(exp);
+                var _color = segments[3];
+                if (segments[1] === 'b')
+                    _color = 'background ' + _color;
+                return colors.get(_color, isClose);
             }
         }
-        return '';
-    };
-    Parser.prototype.color = function (kind, r, g, b, fallback) {
-        if (supportsColor.has16m || supportsColor.has256) {
-            return ansi256[kind].getRgb(r, g, b);
+        try {
+            return colors.get(color, isClose);
         }
-        else if (supportsColor.has256) {
-            ansi256.fg.standard;
+        catch (err) {
+            return '';
         }
-    };
-    Parser.prototype.f = function (r, g, b, fallback) {
-        if (r === void 0) { r = 0; }
-        if (g === void 0) { g = 0; }
-        if (b === void 0) { b = 0; }
-        return this.color('fg', r, g, b, fallback);
-    };
-    Parser.prototype.b = function (r, g, b, fallback) {
-        if (r === void 0) { r = 0; }
-        if (g === void 0) { g = 0; }
-        if (b === void 0) { b = 0; }
-        return this.color('bg', r, g, b, fallback);
     };
     return Parser;
 }());
@@ -82,6 +119,13 @@ var parser = new Parser;
 
 exports.Parser = Parser;
 exports.parser = parser;
+exports.Colors = Colors;
+exports.colors = colors;
+exports.convert = convert;
+exports.supports = supports;
+exports.isAnyLength = isAnyLength;
+exports.isAllLength = isAllLength;
+exports.isLength = isAnyLength;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

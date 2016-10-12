@@ -10,17 +10,7 @@
 
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es5",
-        "lib": ["es6", "es7"],
-        "typeRoots": [
-            "./node_modules/@types"
-        ],
-        "types": [
-            "lodash",
-            "jasmine",
-            "node",
-            "@radic/util"
-        ]
+        "target": "es5"
     },
     "exclude": [
         "gulpfile.ts"

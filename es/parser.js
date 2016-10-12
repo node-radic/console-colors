@@ -1,76 +1,56 @@
-import * as ansi from "ansi-styles";
-import * as supportsColor from "supports-color";
-var ansi256 = require('ansi-256-colors');
-var ansiColors = Object.keys(ansi);
+import { colors } from "./colors";
 export var Parser = (function () {
     function Parser() {
         this.exp = /\{(.*?)\}/g;
     }
     Parser.prototype.parse = function (text) {
         var _this = this;
-        if (!this.getExpression().test(text))
+        if (!this.getBrackets().test(text))
             return text;
-        var re = this.getExpression();
-        var myArr;
-        var matches = [];
-        while ((myArr = re.exec(text)) !== null) {
-            matches.push(myArr);
-        }
-        matches.forEach(function (match) {
-            var replace = '';
-            match[1].split('.').forEach(function (key) {
-                replace += _this.key(key);
-            });
-            text = text.replace(match[0], replace);
+        this.getTextTags(text, this.getBrackets()).forEach(function (tag) {
+            var parsed = _this.parseTag(tag);
+            text = parsed.replace(text);
         });
         return text;
     };
-    Parser.prototype.getExpression = function () {
+    Parser.prototype.getBrackets = function () {
         return /\{(.*?)\}/g;
     };
-    Parser.prototype.handleMatch = function (match) {
-        var _this = this;
-        var keys = match[1].split('.');
-        var replace = '';
-        keys.forEach(function (key) {
-            replace += _this.key(key);
-        });
-    };
-    Parser.prototype.key = function (key) {
-        var isClose = key.charAt(0) === '/';
-        key = isClose ? key.replace('/', '') : key;
-        if (ansiColors.indexOf(key) !== -1) {
-            return ansi[key][isClose ? 'close' : 'open'];
+    Parser.prototype.getTextTags = function (text, brackets) {
+        var matches = [], myArr;
+        while ((myArr = brackets.exec(text)) !== null) {
+            matches.push(myArr);
         }
-        var exp = /^(f|b)\((\d{1,3}),(\d{1,3}),(\d{1,3})(?:\)|,(\w*?)\))$/m;
-        if (key.charAt(0) === 'f' || key.charAt(0) === 'b') {
-            if (exp.test(key)) {
-                var match = key.match(exp);
-                var color = this[match[1]](parseInt(match[2]), parseInt(match[3]), parseInt(match[4]), match[5]);
-                return color;
+        return matches;
+    };
+    Parser.prototype.parseTag = function (tag) {
+        var _this = this;
+        var replacements = {};
+        tag[1].split('.').forEach(function (rawColor) { return replacements[rawColor] = _this.parseColor(rawColor); });
+        var colors = Object.keys(replacements).map(function (key) { return replacements[key]; });
+        var string = colors.join('');
+        var replace = function (text) { return text.replace(tag[0], string === '' ? tag[0] : string); };
+        return { replacements: replacements, colors: colors, string: string, replace: replace };
+    };
+    Parser.prototype.parseColor = function (color) {
+        var isClose = color.charAt(0) === '/';
+        color = isClose ? color.replace('/', '') : color;
+        if (color.charAt(0) === 'f' || color.charAt(0) === 'b') {
+            var exp = /^(f|b)(\:|\()(.*)$/m;
+            if (exp.test(color)) {
+                var segments = color.match(exp);
+                var _color = segments[3];
+                if (segments[1] === 'b')
+                    _color = 'background ' + _color;
+                return colors.get(_color, isClose);
             }
         }
-        return '';
-    };
-    Parser.prototype.color = function (kind, r, g, b, fallback) {
-        if (supportsColor.has16m || supportsColor.has256) {
-            return ansi256[kind].getRgb(r, g, b);
+        try {
+            return colors.get(color, isClose);
         }
-        else if (supportsColor.has256) {
-            ansi256.fg.standard;
+        catch (err) {
+            return '';
         }
-    };
-    Parser.prototype.f = function (r, g, b, fallback) {
-        if (r === void 0) { r = 0; }
-        if (g === void 0) { g = 0; }
-        if (b === void 0) { b = 0; }
-        return this.color('fg', r, g, b, fallback);
-    };
-    Parser.prototype.b = function (r, g, b, fallback) {
-        if (r === void 0) { r = 0; }
-        if (g === void 0) { g = 0; }
-        if (b === void 0) { b = 0; }
-        return this.color('bg', r, g, b, fallback);
     };
     return Parser;
 }());
