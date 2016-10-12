@@ -1,6 +1,6 @@
 
 declare module "@radic/console-colors" {
-    /// <reference path="../types.d.ts" />
+    /// <reference path="types.d.ts" />
 import * as supports from "supports-color";
 import * as convert from "color-convert";
 export interface AnsiRgbColors {
