@@ -1,8 +1,6 @@
 "use strict";
 var supports = require("supports-color");
-exports.supports = supports;
 var convert = require("color-convert");
-exports.convert = convert;
 var util_1 = require("@radic/util");
 var trucolor = require("trucolor");
 function isLength(value, lengths) {

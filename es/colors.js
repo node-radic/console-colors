@@ -57,4 +57,4 @@ export var Colors = (function () {
     return Colors;
 }());
 var colors = new Colors;
-export { colors, convert, supports, isAnyLength, isAllLength, isAnyLength as isLength };
+export { colors, isAnyLength, isAllLength, isAnyLength as isLength };

@@ -1,6 +1,4 @@
 /// <reference path="../types.d.ts" />
-import * as supports from "supports-color";
-import * as convert from "color-convert";
 export interface AnsiRgbColors {
     fg: Array<number>;
     bg: Array<number>;
@@ -20,4 +18,4 @@ export declare class Colors {
     };
 }
 declare let colors: Colors;
-export { colors, convert, supports, isAnyLength, isAllLength, isAnyLength as isLength };
+export { colors, isAnyLength, isAllLength, isAnyLength as isLength };

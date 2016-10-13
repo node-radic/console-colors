@@ -63,8 +63,7 @@ var tsDtsProject = tsc.createProject("tsconfig.json", _.merge(require('./tsconfi
 }));
 gulp.task("build-dts", function () {
     return gulp.src([
-        "src/**/*.ts",
-        "types.d.ts"
+        "src/**/*.ts"
     ])
         .pipe(tsDtsProject())
         .on("error", function (err) {

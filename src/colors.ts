@@ -77,4 +77,4 @@ export class Colors
 }
 let colors: Colors = new Colors;
 
-export { colors, convert, supports, isAnyLength, isAllLength, isAnyLength as isLength }
+export { colors, isAnyLength, isAllLength, isAnyLength as isLength}
