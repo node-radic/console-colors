@@ -1,4 +1,3 @@
-/// <reference path="../types.d.ts"  />
 import * as supports from "supports-color";
 import * as convert from "color-convert";
 import { kindOf } from "@radic/util";

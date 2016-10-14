@@ -1,5 +1,5 @@
 import * as gulp from "gulp";
-import * as karma from "karma";
+// import * as karma from "karma";
 import * as fs from 'fs';
 import * as path from 'path'
 
@@ -89,7 +89,8 @@ var tsDtsProject = tsc.createProject("tsconfig.json", _.merge(require('./tsconfi
 
 gulp.task("build-dts", function () {
     return gulp.src([
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "types/*.d.ts"
     ])
         .pipe(tsDtsProject())
         .on("error", function (err) {
@@ -100,11 +101,12 @@ gulp.task("build-dts", function () {
 });
 
 gulp.task('build-dts:concat', ['build-dts'], (done:any) => {
+
     let dtsPath = path.join(process.cwd(), 'dts')
     let dest = path.join(process.cwd(), c.fileName + '.d.ts')
-    //let dest = path.join(process.cwd(), 'dts', 'radic.util.d.ts')
     fs.existsSync(dest) && fs.unlinkSync(dest);
-    let content = '';
+    let content = ''
+
     fs.readdirSync(dtsPath).forEach((fileName) => {
         let filePath = path.join(dtsPath, fileName)
         if(fileName !== 'index.d.ts') {
@@ -113,7 +115,9 @@ gulp.task('build-dts:concat', ['build-dts'], (done:any) => {
         fs.unlinkSync(filePath)
     });
     fs.rmdirSync(dtsPath)
+    let typesDts = fs.readFileSync(path.join(process.cwd(), 'types.d.ts'));
     fs.writeFile(dest, `
+${typesDts}
 declare module "${c.moduleName}" {
     ${content.replace(/declare/g , '')}
 }
@@ -207,24 +211,24 @@ gulp.task("bundle-test", function () {
         .pipe(gulp.dest(outputFolder));
 });
 
-gulp.task("karma", ["bundle-test"], function (done) {
-    new karma.Server({
-        configFile: __dirname + "/karma.conf.js"
-    }, function (code) {
-        if (code === 1) {
-            console.log('Browser test failures, exiting process');
-            done('Browser test Failures');
-        } else {
-            console.log('Browser tests passed');
-            done();
-        }
-    }).start();
-});
+// gulp.task("karma", ["bundle-test"], function (done) {
+//     new karma.Server({
+//         configFile: __dirname + "/karma.conf.js"
+//     }, function (code) {
+//         if (code === 1) {
+//             console.log('Browser test failures, exiting process');
+//             done('Browser test Failures');
+//         } else {
+//             console.log('Browser tests passed');
+//             done();
+//         }
+//     }).start();
+// });
 
 // Run browser testings on AppVeyor not in Travis CI
 if (process.env.APPVEYOR) {
     gulp.task("test", function (cb) {
-        runSequence("jasmine", "karma", cb);
+        runSequence("jasmine", cb);
     });
 } else {
     gulp.task("test", function (cb) {
@@ -240,7 +244,7 @@ gulp.task("build", function (cb) {
         // "lint",
         "clean",
         ["build-src", "build-es", "build-lib", "build-dts", 'build-umd'],   // tests + build es and lib
-        'build-dts:concat',
+        // 'build-dts:concat',
         "build-test", cb);
 });
 

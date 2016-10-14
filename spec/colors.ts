@@ -1,4 +1,3 @@
-/// <reference path="../types.d.ts"  />
 import { Colors } from "../src";
 describe("Ansi", function () {
 

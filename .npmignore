@@ -3,7 +3,6 @@
 /spec
 /src
 src
-/types
 /.gitignore
 /.mversionrc
 /console-colors.iml
@@ -33,7 +32,6 @@ type_definitions
 jasmine.*
 .editorconfig
 index.html
-/dts
 /bower_components
 /npm-debug.log
 

@@ -13,7 +13,8 @@
         "target": "es5",
         "lib": ["es6", "es7"],
         "typeRoots": [
-            "./node_modules/@types"
+            "./node_modules/@types",
+            "./types"
         ],
         "types": [
             "lodash",
@@ -23,6 +24,8 @@
         ]
     },
     "exclude": [
+        "node_modules",
+        "console-colors.d.ts",
         "gulpfile.ts"
     ]
 }

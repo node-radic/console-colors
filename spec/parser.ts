@@ -1,4 +1,3 @@
-/// <reference path="../types.d.ts"  />
 import {Parser} from "../src/";
 describe('Parser', () => {
     let parser: Parser;
