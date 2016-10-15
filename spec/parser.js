@@ -11,4 +11,3 @@ describe('Parser', function () {
         console.log(parsed);
     });
 });
-//# sourceMappingURL=parser.js.map

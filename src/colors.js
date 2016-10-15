@@ -63,4 +63,3 @@ var Colors = (function () {
 exports.Colors = Colors;
 var colors = new Colors;
 exports.colors = colors;
-//# sourceMappingURL=colors.js.map
