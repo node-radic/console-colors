@@ -57,3 +57,4 @@ var Parser = (function () {
 }());
 exports.Parser = Parser;
 exports.parser = new Parser;
+//# sourceMappingURL=parser.js.map
