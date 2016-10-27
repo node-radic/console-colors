@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('supports-color'), require('color-convert'), require('@radic/util'), require('trucolor')) :
     typeof define === 'function' && define.amd ? define(['exports', 'supports-color', 'color-convert', '@radic/util', 'trucolor'], factory) :
-    (factory((global.radic = global.radic || {}, global.radic.console-colors = global.radic.console-colors || {}),global.supports,global.convert,global._radic_util,global.trucolor));
+    (factory((global.console = global.console || {}, global.console.colors = global.console.colors || {}),global.supports,global.convert,global._radic_util,global.trucolor));
 }(this, (function (exports,supports,convert,_radic_util,trucolor) { 'use strict';
 
 function isLength(value, lengths) {
@@ -51,7 +51,8 @@ var Colors = (function () {
         configurable: true
     });
     Colors.prototype.get = function (color, close) {
-        return this.getTrucolorColor(color)[close ? 'out' : 'in'];
+        var _color = this.palette[color] ? this.palette[color] : this.getTrucolorColor(color);
+        return _color[close ? 'out' : 'in'];
     };
     Colors.prototype.getTrucolorColor = function (color) {
         return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;

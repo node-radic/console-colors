@@ -53,7 +53,8 @@ var Colors = (function () {
         configurable: true
     });
     Colors.prototype.get = function (color, close) {
-        return this.getTrucolorColor(color)[close ? 'out' : 'in'];
+        var _color = this.palette[color] ? this.palette[color] : this.getTrucolorColor(color);
+        return _color[close ? 'out' : 'in'];
     };
     Colors.prototype.getTrucolorColor = function (color) {
         return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;

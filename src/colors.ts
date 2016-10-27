@@ -43,7 +43,8 @@ export class Colors
     get trucolor(): _trucolor.TrucolorStatic { return trucolor }
 
     get(color: string, close?: boolean): string {
-        return this.getTrucolorColor(color)[ close ? 'out' : 'in' ];
+        let _color = this.palette[color] ? this.palette[color] : this.getTrucolorColor(color);
+        return _color[ close ? 'out' : 'in' ];
     }
 
     getTrucolorColor(color: string): {in: string, out: string, toString: ()=>string} {
