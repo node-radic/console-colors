@@ -28,4 +28,3 @@ describe("Ansi", function () {
         it('accepts color(name)', function () { return expect(colors.get('red')).toBeDefined(); });
     });
 });
-//# sourceMappingURL=colors.js.map

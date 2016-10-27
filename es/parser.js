@@ -1,7 +1,8 @@
-import { colors } from "./colors";
+import { Colors } from "./colors";
 export var Parser = (function () {
     function Parser() {
         this.exp = /\{(.*?)\}/g;
+        this.colors = new Colors;
     }
     Parser.prototype.parse = function (text) {
         var _this = this;
@@ -42,11 +43,11 @@ export var Parser = (function () {
                 var _color = segments[3];
                 if (segments[1] === 'b')
                     _color = 'background ' + _color;
-                return colors.get(_color, isClose);
+                return this.colors.get(_color, isClose);
             }
         }
         try {
-            return colors.get(color, isClose);
+            return this.colors.get(color, isClose);
         }
         catch (err) {
             return '';
@@ -54,4 +55,3 @@ export var Parser = (function () {
     };
     return Parser;
 }());
-export var parser = new Parser;

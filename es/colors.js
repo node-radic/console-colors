@@ -54,7 +54,16 @@ export var Colors = (function () {
     Colors.prototype.getTrucolorColor = function (color) {
         return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;
     };
+    Colors.prototype.getStyles = function (styles) {
+        if (styles === void 0) { styles = {}; }
+        return require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    };
+    Colors.prototype.styles = function (styles) {
+        this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    };
+    Colors.prototype.reset = function () {
+        this.palette = trucolor.simplePalette();
+    };
     return Colors;
 }());
-var colors = new Colors;
-export { colors, isAnyLength, isAllLength, isAnyLength as isLength };
+export { isAnyLength, isAllLength, isAnyLength as isLength };

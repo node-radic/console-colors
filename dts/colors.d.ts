@@ -15,6 +15,14 @@ export declare class Colors {
         out: string;
         toString: () => string;
     };
+    getStyles(styles?: Object): {
+        [name: string]: {
+            in: string;
+            out: string;
+            toString: () => string;
+        };
+    };
+    styles(styles: Object): void;
+    reset(): void;
 }
-declare let colors: Colors;
-export { colors, isAnyLength, isAllLength, isAnyLength as isLength };
+export { isAnyLength, isAllLength, isAnyLength as isLength };

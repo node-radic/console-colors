@@ -56,13 +56,23 @@ var Colors = (function () {
     Colors.prototype.getTrucolorColor = function (color) {
         return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;
     };
+    Colors.prototype.getStyles = function (styles) {
+        if (styles === void 0) { styles = {}; }
+        return require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    };
+    Colors.prototype.styles = function (styles) {
+        this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    };
+    Colors.prototype.reset = function () {
+        this.palette = trucolor.simplePalette();
+    };
     return Colors;
 }());
-var colors = new Colors;
 
 var Parser = (function () {
     function Parser() {
         this.exp = /\{(.*?)\}/g;
+        this.colors = new Colors;
     }
     Parser.prototype.parse = function (text) {
         var _this = this;
@@ -88,10 +98,10 @@ var Parser = (function () {
         var _this = this;
         var replacements = {};
         tag[1].split('.').forEach(function (rawColor) { return replacements[rawColor] = _this.parseColor(rawColor); });
-        var colors$$1 = Object.keys(replacements).map(function (key) { return replacements[key]; });
-        var string = colors$$1.join('');
+        var colors = Object.keys(replacements).map(function (key) { return replacements[key]; });
+        var string = colors.join('');
         var replace = function (text) { return text.replace(tag[0], string === '' ? tag[0] : string); };
-        return { replacements: replacements, colors: colors$$1, string: string, replace: replace };
+        return { replacements: replacements, colors: colors, string: string, replace: replace };
     };
     Parser.prototype.parseColor = function (color) {
         var isClose = color.charAt(0) === '/';
@@ -103,11 +113,11 @@ var Parser = (function () {
                 var _color = segments[3];
                 if (segments[1] === 'b')
                     _color = 'background ' + _color;
-                return colors.get(_color, isClose);
+                return this.colors.get(_color, isClose);
             }
         }
         try {
-            return colors.get(color, isClose);
+            return this.colors.get(color, isClose);
         }
         catch (err) {
             return '';
@@ -115,12 +125,9 @@ var Parser = (function () {
     };
     return Parser;
 }());
-var parser = new Parser;
 
 exports.Parser = Parser;
-exports.parser = parser;
 exports.Colors = Colors;
-exports.colors = colors;
 exports.isAnyLength = isAnyLength;
 exports.isAllLength = isAllLength;
 exports.isLength = isAnyLength;
