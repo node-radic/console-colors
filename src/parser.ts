@@ -1,4 +1,4 @@
-import { colors } from "./colors";
+import { Colors } from "./colors";
 // import * as Ansi from 'ansi'
 // import { range, last, clone, startsWith } from "lodash";
 // import { kindOf, defined } from "@radic/util";
@@ -17,6 +17,8 @@ export interface ParserParsedTag
 export class Parser
 {
     exp: RegExp = /\{(.*?)\}/g
+
+    colors: Colors = new Colors;
 
     parse(text: string) {
         if ( ! this.getBrackets().test(text) ) return text;
@@ -70,14 +72,14 @@ export class Parser
                 let segments = color.match(exp)
                 let _color = segments[3]
                 if(segments[1] === 'b') _color = 'background ' + _color
-                return colors.get(_color, isClose)
+                return this.colors.get(_color, isClose)
             }
 
             //throw Error('cant parase f or b in parseColor')
         }
 
         try {
-            return colors.get(color, isClose)
+            return this.colors.get(color, isClose)
         } catch ( err ) {
             return ''
         }
@@ -204,7 +206,6 @@ export class Parser
     // }
 }
 
-export var parser: Parser = new Parser;
 
 /// ansi256
 // colors.<fg|bg>.getRgb(<red>[0..6], <green>[0..6], <blue>[0..6])

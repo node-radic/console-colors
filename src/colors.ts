@@ -51,6 +51,19 @@ export class Colors
         return require('deep-assign')(this.palette, trucolor.bulk({}, { color })).color;
     }
 
+    getStyles(styles:Object = {}): {[name:string]: {in: string, out: string, toString: ()=>string} }{
+        //return trucolor.bulk(trucolor.simplePalette(), { color }).color
+        return require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    }
+
+    styles(styles:Object){
+        this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    }
+
+    reset(){
+        this.palette = trucolor.simplePalette()
+    }
+
     //
     // static create(streamObject?: NodeJS.ReadWriteStream): AnsiCreator {
     //     let _stream: AnsiStream  = <AnsiStream> (streamObject ? streamObject : new stream.PassThrough())
@@ -74,6 +87,5 @@ export class Colors
 
 
 }
-let colors: Colors = new Colors;
 
-export { colors, isAnyLength, isAllLength, isAnyLength as isLength}
+export {  isAnyLength, isAllLength, isAnyLength as isLength}
