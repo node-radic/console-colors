@@ -4,3 +4,4 @@ function __export(m) {
 }
 __export(require('./parser'));
 __export(require('./colors'));
+//# sourceMappingURL=index.js.map
