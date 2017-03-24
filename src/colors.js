@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var supports = require("supports-color");
 var convert = require("color-convert");
 var util_1 = require("@radic/util");

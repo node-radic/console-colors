@@ -24,7 +24,11 @@
         ]
     },
     "exclude": [
-        "gulpfile.ts"
+        "gulpfile.ts",
+        "node_modules"
+    ],
+    "include": [
+        "src/*.d.ts"
     ],
     "files": [
         "src/index.ts"

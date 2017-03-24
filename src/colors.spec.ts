@@ -1,4 +1,4 @@
-import { Colors } from "../src";
+import { Colors } from "./colors";
 describe("Ansi", function () {
 
     let colors: Colors,

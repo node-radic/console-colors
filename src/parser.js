@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var colors_1 = require("./colors");
 var Parser = (function () {
     function Parser() {
