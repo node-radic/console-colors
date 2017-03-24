@@ -11,7 +11,7 @@ npm install -g @radic/commando
 Usage
 -----
 
-```ecmascript 6
+```typescript
 import {parser} from '@radic/console-colors';
 console.log(parser.parse(`
 {bold.red.underline}This is bold, red and underlined.{/red} But we dropped the red.{reset} And just resetted the rest.
