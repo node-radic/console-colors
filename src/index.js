@@ -6,4 +6,3 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./parser"));
 __export(require("./colors"));
 console.log(module.parent);
-//# sourceMappingURL=index.js.map
