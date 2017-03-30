@@ -46,7 +46,8 @@ var tsLibProject = tsc.createProject("tsconfig.json", { module: "es2015", declar
 
 gulp.task("build-lib", function () {
     return gulp.src([
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "!src/**/*.spec.ts"
     ])
         .pipe(tsLibProject())
         .on("error", function (err) {

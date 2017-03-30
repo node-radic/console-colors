@@ -1,7 +1,7 @@
 import * as supports from "supports-color";
 import * as convert from "color-convert";
 import { kindOf } from "@radic/util";
-import * as trucolor from "trucolor";
+import { trucolor, palette, chalkish, simple, Trucolor } from 'trucolor'
 //import {startsWith } from 'lodash'
 
 
@@ -34,57 +34,40 @@ let isAllLength = (value: any, ...lengths: any[]) => isLength(value, lengths).in
 export class Colors
 {
     //static created: AnsiCreator[] = []
-    palette: any = trucolor.simplePalette()
+    palette: any = simple()
 
     get convert(): ColorConvert { return convert }
 
     get supports(): SupportsColorOptions { return supports }
 
-    get trucolor(): _trucolor.TrucolorStatic { return trucolor }
 
     get(color: string, close?: boolean): string {
         let _color = this.palette[color] ? this.palette[color] : this.getTrucolorColor(color);
         return _color[ close ? 'out' : 'in' ];
     }
 
-    getTrucolorColor(color: string): {in: string, out: string, toString: ()=>string} {
+    getTrucolorColor(color: string): Trucolor {
         //return trucolor.bulk(trucolor.simplePalette(), { color }).color
-        return require('deep-assign')(this.palette, trucolor.bulk({}, { color })).color;
+        return trucolor(color, this.palette);
+        // return require('deep-assign')(this.palette, trucolor.bulk({}, { color })).color;
     }
 
-    getStyles(styles:Object = {}): {[name:string]: {in: string, out: string, toString: ()=>string} }{
+    getStyles(styles:Object = {}): {[name:string]: Trucolor} {
         //return trucolor.bulk(trucolor.simplePalette(), { color }).color
-        return require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+        return this.palette;
     }
 
-    styles(styles:Object){
-        this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+    styles(styles:Object) :  this{
+        this.palette = palette(this.palette, styles);
+        // this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+        return this;
     }
 
-    reset(){
-        this.palette = trucolor.simplePalette()
+    reset() : this {
+        this.palette = palette()
+        return this
     }
 
-    //
-    // static create(streamObject?: NodeJS.ReadWriteStream): AnsiCreator {
-    //     let _stream: AnsiStream  = <AnsiStream> (streamObject ? streamObject : new stream.PassThrough())
-    //     let _cursor: AnsiCursor  = <AnsiCursor> ansi(_stream, { buffering: true });
-    //     _cursor.stream           = _stream
-    //     _stream.cursor           = _cursor
-    //     let creator: AnsiCreator = { cursor: _cursor, stream: _stream, ref: guid() }
-    //     _stream.creator          = creator
-    //     _cursor.creator          = creator
-    //     this.created.push(creator);
-    //     return creator;
-    // }
-    //
-    // static cursor(streamObject?: NodeJS.ReadWriteStream): AnsiCursor {
-    //     return Ansi.create(streamObject ? streamObject : this.stream()).cursor;
-    // }
-    //
-    // static stream(): AnsiStream {
-    //     return Ansi.create().stream
-    // }
 
 
 }

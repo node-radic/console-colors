@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var supports = require("supports-color");
 var convert = require("color-convert");
 var util_1 = require("@radic/util");
-var trucolor = require("trucolor");
+var trucolor_1 = require("trucolor");
 function isLength(value, lengths) {
     lengths = lengths.length === 1 && util_1.kindOf(lengths[0]) === 'array' ? lengths[0] : lengths;
     var vLen;
@@ -36,7 +36,7 @@ var isAllLength = function (value) {
 exports.isAllLength = isAllLength;
 var Colors = (function () {
     function Colors() {
-        this.palette = trucolor.simplePalette();
+        this.palette = trucolor_1.simple();
     }
     Object.defineProperty(Colors.prototype, "convert", {
         get: function () { return convert; },
@@ -48,27 +48,24 @@ var Colors = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Colors.prototype, "trucolor", {
-        get: function () { return trucolor; },
-        enumerable: true,
-        configurable: true
-    });
     Colors.prototype.get = function (color, close) {
         var _color = this.palette[color] ? this.palette[color] : this.getTrucolorColor(color);
         return _color[close ? 'out' : 'in'];
     };
     Colors.prototype.getTrucolorColor = function (color) {
-        return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;
+        return trucolor_1.trucolor(color, this.palette);
     };
     Colors.prototype.getStyles = function (styles) {
         if (styles === void 0) { styles = {}; }
-        return require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+        return this.palette;
     };
     Colors.prototype.styles = function (styles) {
-        this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+        this.palette = trucolor_1.palette(this.palette, styles);
+        return this;
     };
     Colors.prototype.reset = function () {
-        this.palette = trucolor.simplePalette();
+        this.palette = trucolor_1.palette();
+        return this;
     };
     return Colors;
 }());

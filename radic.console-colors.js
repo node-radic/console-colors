@@ -1,7 +1,7 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('supports-color'), require('color-convert'), require('@radic/util'), require('trucolor')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'supports-color', 'color-convert', '@radic/util', 'trucolor'], factory) :
-    (factory((global.console = global.console || {}, global.console.colors = global.console.colors || {}),global.supports,global.convert,global._radic_util,global.trucolor));
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('supports-color'), require('color-convert'), require('@radic/util'), require('trucolor')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'supports-color', 'color-convert', '@radic/util', 'trucolor'], factory) :
+	(factory((global.console = global.console || {}, global.console.colors = global.console.colors || {}),global.supports,global.convert,global._radic_util,global.trucolor));
 }(this, (function (exports,supports,convert,_radic_util,trucolor) { 'use strict';
 
 function isLength(value, lengths) {

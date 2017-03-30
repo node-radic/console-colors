@@ -1,28 +1,22 @@
-
-
-declare var _trucolor:_trucolor.TrucolorStatic
-declare module _trucolor {
-    interface TrucolorStatic extends Object {
-        bulk ?: (options?:any, object?:any) => any
-        cacheClear ?: (name:string) => any
-        cacheGet ?: (name:string) => any
-        cachePut ?: (name:string, value:any) => any
-        chalkish ?: (styles:any) => any
-        chalkishPalette ?: (options?:any) => any
-        getBin ?: () => any
-        getBugs ?: () => any
-        getCopyright ?: () => any
-        getDescription ?: () => any
-        getName ?: () => any
-        getVersion ?: (long:any) => any
-        interpret ?: (input:any) => any
-        newProcessor ?: (name:string) => any
-        reset ?: () => any
-        route ?: (options?:any, callback?:any) => any
-        simplePalette ?: (options?:any) => any
-    }
-
-}
 declare module "trucolor" {
-    export = _trucolor
+
+    interface Trucolor {
+        name:string
+        in:string
+        out:string
+        hex:string
+        rgb:string
+        toString():string
+        toSwatch():any
+    }
+    function trucolor(color?: string, options?: any): Trucolor
+
+    function palette(options?: any, palette?: any): any
+
+    function chalkish(palette?: any): any
+
+    function simple(options?: any): any
+
+    function simplePalette(options?: any): any
 }
+
