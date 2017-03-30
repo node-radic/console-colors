@@ -28,9 +28,8 @@
         "node_modules"
     ],
     "include": [
-        "src/*.d.ts"
-    ],
-    "files": [
+        "src/*.d.ts",
+        "node_modules/@types/**/*.ts",
         "src/index.ts"
     ]
 }
