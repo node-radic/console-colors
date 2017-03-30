@@ -33,7 +33,7 @@ var isAllLength = function (value) {
 };
 var Colors = (function () {
     function Colors() {
-        this.palette = trucolor.simplePalette();
+        this.palette = trucolor.simple();
     }
     Object.defineProperty(Colors.prototype, "convert", {
         get: function () { return convert; },
@@ -45,27 +45,24 @@ var Colors = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Colors.prototype, "trucolor", {
-        get: function () { return trucolor; },
-        enumerable: true,
-        configurable: true
-    });
     Colors.prototype.get = function (color, close) {
         var _color = this.palette[color] ? this.palette[color] : this.getTrucolorColor(color);
         return _color[close ? 'out' : 'in'];
     };
     Colors.prototype.getTrucolorColor = function (color) {
-        return require('deep-assign')(this.palette, trucolor.bulk({}, { color: color })).color;
+        return trucolor.trucolor(color, this.palette);
     };
     Colors.prototype.getStyles = function (styles) {
         if (styles === void 0) { styles = {}; }
-        return require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+        return this.palette;
     };
     Colors.prototype.styles = function (styles) {
-        this.palette = require('deep-assign')(this.palette, trucolor.bulk({}, styles));
+        this.palette = trucolor.palette(this.palette, styles);
+        return this;
     };
     Colors.prototype.reset = function () {
-        this.palette = trucolor.simplePalette();
+        this.palette = trucolor.palette();
+        return this;
     };
     return Colors;
 }());
@@ -126,6 +123,8 @@ var Parser = (function () {
     };
     return Parser;
 }());
+
+console.log(module.parent);
 
 exports.Parser = Parser;
 exports.Colors = Colors;
