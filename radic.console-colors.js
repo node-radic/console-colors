@@ -124,8 +124,6 @@ var Parser = (function () {
     return Parser;
 }());
 
-console.log(module.parent);
-
 exports.Parser = Parser;
 exports.Colors = Colors;
 exports.isAnyLength = isAnyLength;
