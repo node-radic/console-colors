@@ -1,6 +1,6 @@
 {
     "name": "@radic/console-colors",
-    "version": "0.9.2",
+    "version": "0.9.0",
     "description": "Console Colors text parser. Apply colors to texts fast & easy. Use hex/rgb colors with auto (or custom) fallback for unsupported terminals.",
     "main": "radic.console-colors.js",
     "typings": "lib/index.d.ts",

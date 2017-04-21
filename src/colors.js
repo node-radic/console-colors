@@ -55,8 +55,7 @@ var Colors = (function () {
     Colors.prototype.getTrucolorColor = function (color) {
         return trucolor_1.trucolor(color, this.palette);
     };
-    Colors.prototype.getStyles = function (styles) {
-        if (styles === void 0) { styles = {}; }
+    Colors.prototype.getStyles = function () {
         return this.palette;
     };
     Colors.prototype.styles = function (styles) {

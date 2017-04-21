@@ -52,7 +52,7 @@ export class Colors
         // return require('deep-assign')(this.palette, trucolor.bulk({}, { color })).color;
     }
 
-    getStyles(styles:Object = {}): {[name:string]: Trucolor} {
+    getStyles(): {[name:string]: Trucolor} {
         //return trucolor.bulk(trucolor.simplePalette(), { color }).color
         return this.palette;
     }
