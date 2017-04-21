@@ -1,7 +1,7 @@
 import * as supports from "supports-color";
 import * as convert from "color-convert";
 import { kindOf } from "@radic/util";
-import { trucolor, palette, chalkish, simple, Trucolor } from 'trucolor'
+import { trucolor, palette, chalkish, simple, Trucolor, Palette } from 'trucolor'
 //import {startsWith } from 'lodash'
 
 
@@ -15,6 +15,7 @@ export interface AnsiRgbColors
     fg: Array<number>
     bg: Array<number>
 }
+
 
 function isLength(value: any, lengths: any[]): boolean[] {
     lengths = lengths.length === 1 && kindOf(lengths[ 0 ]) === 'array' ? lengths[ 0 ] : lengths;
@@ -34,7 +35,7 @@ let isAllLength = (value: any, ...lengths: any[]) => isLength(value, lengths).in
 export class Colors
 {
     //static created: AnsiCreator[] = []
-    palette: any = simple()
+    palette: Palette = simple()
 
     get convert(): ColorConvert { return convert }
 
@@ -52,7 +53,7 @@ export class Colors
         // return require('deep-assign')(this.palette, trucolor.bulk({}, { color })).color;
     }
 
-    getStyles(): {[name:string]: Trucolor} {
+    getStyles(): Palette {
         //return trucolor.bulk(trucolor.simplePalette(), { color }).color
         return this.palette;
     }

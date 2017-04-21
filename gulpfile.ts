@@ -116,7 +116,10 @@ gulp.task("jasmine", function () {
         "src/**/*.spec.js"
     ])
         .pipe(jasmine({
-            reporter: new SpecReporter(),
+            reporter: new SpecReporter({
+                displayStacktrace: true,
+                displaySpecDuration: true
+            }),
             config  : require('./jasmine.json')
         }))
 });

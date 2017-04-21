@@ -68,25 +68,29 @@ var Colors = (function () {
 
 var Parser = (function () {
     function Parser() {
-        this.exp = /\{(.*?)\}/g;
         this.colors = new Colors;
     }
     Parser.prototype.parse = function (text) {
         var _this = this;
-        if (!this.getBrackets().test(text))
+        if (!this.getTagsExp().test(text))
             return text;
-        this.getTextTags(text, this.getBrackets()).forEach(function (tag) {
+        this.getTextTags(text, this.getTagsExp()).forEach(function (tag) {
             var parsed = _this.parseTag(tag);
             text = parsed.replace(text);
         });
         return text;
     };
-    Parser.prototype.getBrackets = function () {
-        return /\{(.*?)\}/g;
+    Parser.prototype.clean = function (text) {
+        if (!this.getTagsExp().test(text))
+            return text;
+        return text.replace(this.getTagsExp(), '');
     };
-    Parser.prototype.getTextTags = function (text, brackets) {
+    Parser.prototype.getTagsExp = function () {
+        return /{(.*?)}/g;
+    };
+    Parser.prototype.getTextTags = function (text, tagExp) {
         var matches = [], myArr;
-        while ((myArr = brackets.exec(text)) !== null) {
+        while ((myArr = tagExp.exec(text)) !== null) {
             matches.push(myArr);
         }
         return matches;
@@ -104,7 +108,7 @@ var Parser = (function () {
         var isClose = color.charAt(0) === '/';
         color = isClose ? color.replace('/', '') : color;
         if (color.charAt(0) === 'f' || color.charAt(0) === 'b') {
-            var exp = /^(f|b)(\:|\()(.*)$/m;
+            var exp = /^([fb])([:(])(.*)$/m;
             if (exp.test(color)) {
                 var segments = color.match(exp);
                 var _color = segments[3];

@@ -1,4 +1,4 @@
-import {Parser} from "./parser";
+import { Parser } from "./parser";
 describe('Parser', () => {
     let parser: Parser;
 
@@ -13,10 +13,14 @@ describe('Parser', () => {
         parser = new Parser;
     });
 
-    it('first', () => {
-        let parsed = parser.parse(text)
-
-
-         console.log(parsed);
+    it('can clean all tags in a text', () => {
+        let cleaned = parser.clean(text);
+        let exp = /{(.*?)}/g;
+        expect(exp.test(cleaned)).toBeFalsy();
+    });
+    it('can parse all tags in a text', () => {
+        let parsed = parser.parse(text);
+        let exp = /{(.*?)}/g;
+        expect(exp.test(parsed)).toBeFalsy();
     })
-})
+});

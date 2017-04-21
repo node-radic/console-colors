@@ -13,9 +13,9 @@
         "test": "gulp test",
         "clean": "gulp clean",
         "jasmine": "jasmine",
-        "patch": "mversion patch -m",
-        "minor": "mversion minor -m",
-        "major": "mversion major -m",
+        "patch": "npm run test && mversion patch -m",
+        "minor": "npm run test && mversion minor -m",
+        "major": "npm run test && mversion major -m",
         "docs": "cd .. ; rm -r docs/typedocs; typedoc --hideGenerator --includeDeclarations --mode file --out docs/typedocs --readme README.md src",
         "posttest": "echo \"DONE!\""
     },
