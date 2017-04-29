@@ -5,3 +5,4 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./parser"));
 __export(require("./colors"));
+//# sourceMappingURL=index.js.map

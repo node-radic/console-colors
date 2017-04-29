@@ -69,3 +69,4 @@ var Colors = (function () {
     return Colors;
 }());
 exports.Colors = Colors;
+//# sourceMappingURL=colors.js.map

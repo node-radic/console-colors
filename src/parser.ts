@@ -1,4 +1,5 @@
 import { Colors } from "./colors";
+import { inspect } from "@radic/util";
 
 export interface ParserParsedTag {
     colors: string[],
@@ -52,7 +53,7 @@ export class Parser {
         if ( color.charAt(0) === 'f' || color.charAt(0) === 'b' ) {
 
             // https://regex101.com/r/SdwSKD/1
-            let exp = /^([fb])([:(])(.*)$/m;
+            let exp = /^([fb])([:(])(.*)([)])$/m;
             if ( exp.test(color) ) {
                 let segments = color.match(exp);
                 let _color   = segments[ 3 ];
