@@ -43,7 +43,6 @@ var Parser = (function () {
         var isClose = color.charAt(0) === '/';
         color = isClose ? color.replace('/', '') : color;
         if (color.charAt(0) === 'f' || color.charAt(0) === 'b') {
-            // https://regex101.com/r/SdwSKD/1
             var exp = /^([fb])([:(])(.*)([)])$/m;
             if (exp.test(color)) {
                 var segments = color.match(exp);
@@ -52,7 +51,6 @@ var Parser = (function () {
                     _color = 'background ' + _color;
                 return this.colors.get(_color, isClose);
             }
-            //throw Error('cant parase f or b in parseColor')
         }
         try {
             return this.colors.get(color, isClose);
