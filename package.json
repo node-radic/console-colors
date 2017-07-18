@@ -5,7 +5,7 @@
     "main": "radic.console-colors.js",
     "typings": "lib/index.d.ts",
     "jsnext:main": "lib/index.js",
-    "repository": "node-radic/console-colors",
+    "repository": "https://bitbucket.org/robin-radic/console-colors",
     "private": false,
     "scripts": {
         "build": "gulp build",
